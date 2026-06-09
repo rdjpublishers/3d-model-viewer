@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free 3D Model Viewer – Open GLTF, GLB, OBJ, STL, FBX Online | RDJ Publishers</title>
+<meta name="description" content="Free browser-based 3D model viewer. Open GLTF, GLB, OBJ, STL and FBX files instantly – no upload, no sign-up, all processing stays on your device.">
+<meta name="keywords" content="3d model viewer, free 3d viewer, gltf viewer, glb viewer, obj viewer, stl viewer, fbx viewer, online 3d viewer, browser 3d viewer">
+<meta name="author" content="RDJ Publishers">
+<link rel="canonical" href="https://rdjpublishers.com/3d-model-viewer/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Free 3D Model Viewer – Open GLTF, GLB, OBJ, STL, FBX Online">
+<meta property="og:description" content="Free browser-based 3D model viewer. Open GLTF, GLB, OBJ, STL and FBX files instantly – no upload, no sign-up, all processing stays on your device.">
+<meta property="og:url" content="https://rdjpublishers.com/3d-model-viewer/">
+<meta property="og:site_name" content="RDJ Publishers">
+<meta property="og:image" content="https://rdjpublishers.com/Logo.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Free 3D Model Viewer – RDJ Publishers">
+<meta name="twitter:description" content="Open GLTF, GLB, OBJ, STL and FBX files in your browser. Free, private, no sign-up.">
+<meta name="twitter:image" content="https://rdjpublishers.com/Logo.png">
+<meta name="robots" content="index, follow">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G5M1ZPJW29"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-G5M1ZPJW29');
+</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8728382905346597" crossorigin="anonymous"></script>
+<link rel="icon" type="image/png" href="/Logo.png">
+<link rel="apple-touch-icon" href="/Logo.png">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700&display=swap');
+
+:root {
+  --bg: #09090e;
+  --surface: #111118;
+  --surface2: #18181f;
+  --surface3: #1f1f28;
+  --border: #252532;
+  --border2: #2e2e40;
+  --accent: #6c63ff;
+  --accent-hover: #7c74ff;
+  --accent2: #a78bfa;
+  --accent-glow: rgba(108,99,255,0.18);
+  --text: #eaeaf4;
+  --text-muted: #7070a0;
+  --text-dim: #3d3d58;
+  --success: #22d3a0;
+  --error: #f87171;
+  --mono: 'Space Mono', monospace;
+  --sans: 'Space Grotesk', sans-serif;
+  --header-h: 50px;
+  --toolbar-h: 48px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.6;
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ════════════════════════════════
+   HEADER
+════════════════════════════════ */
+header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--header-h);
+  background: rgba(9,9,14,0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  z-index: 1000;
+}
+
+.logo {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+.logo span { color: var(--accent2); }
+
+.header-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.hamburger {
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  color: var(--text-muted);
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+  flex-shrink: 0;
+}
+.hamburger:hover, .hamburger:focus-visible {
+  border-color: var(--accent);
+  color: var(--accent2);
+  background: var(--accent-glow);
+  outline: none;
+}
+
+/* ════════════════════════════════
+   NAV DROPDOWN
+════════════════════════════════ */
+.nav-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 998;
+  background: rgba(0,0,0,0.3);
+}
+.nav-backdrop.open { display: block; }
+
+.nav-menu {
+  position: fixed;
+  top: calc(var(--header-h) + 6px);
+  right: 12px;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: 14px;
+  overflow: hidden;
+  z-index: 999;
+  min-width: 210px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 0 1px rgba(108,99,255,0.1);
+  transform: translateY(-6px) scale(0.96);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.2s cubic-bezier(.32,1.25,.6,1), opacity 0.15s ease;
+}
+.nav-menu.open {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+  pointer-events: all;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-muted);
+  transition: background 0.12s, color 0.12s;
+  border-bottom: 1px solid var(--border);
+  user-select: none;
+}
+.nav-item:last-child { border-bottom: none; }
+.nav-item:hover { background: var(--surface3); color: var(--text); }
+.nav-item.active { color: var(--accent2); background: rgba(108,99,255,0.1); }
+.nav-icon { font-size: 15px; width: 18px; text-align: center; opacity: 0.8; }
+.nav-item.active .nav-icon { opacity: 1; }
+
+/* ════════════════════════════════
+   PAGE CONTAINERS
+════════════════════════════════ */
+.page {
+  position: fixed;
+  top: var(--header-h);
+  left: 0; right: 0; bottom: 0;
+  display: none;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.page.active { display: flex; flex-direction: column; }
+#page-viewer { overflow: hidden; }
+
+/* ════════════════════════════════
+   VIEWER TOOLBAR
+════════════════════════════════ */
+.viewer-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 10px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  height: var(--toolbar-h);
+  flex-shrink: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.viewer-toolbar::-webkit-scrollbar { display: none; }
+
+.tbtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  color: var(--text-muted);
+  padding: 0 11px;
+  height: 32px;
+  border-radius: 7px;
+  font-size: 12.5px;
+  font-family: var(--sans);
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+  white-space: nowrap;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+.tbtn:hover, .tbtn:focus-visible {
+  border-color: var(--accent);
+  color: var(--text);
+  outline: none;
+}
+.tbtn.on {
+  background: rgba(108,99,255,0.14);
+  border-color: var(--accent);
+  color: var(--accent2);
+}
+.tbtn-icon { font-size: 13px; }
+
+.tbtn-open {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  font-weight: 600;
+  padding: 0 14px;
+}
+.tbtn-open:hover, .tbtn-open:focus-visible {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+  color: #fff;
+}
+
+.toolbar-sep {
+  width: 1px;
+  height: 20px;
+  background: var(--border2);
+  flex-shrink: 0;
+  margin: 0 2px;
+}
+
+/* ════════════════════════════════
+   CANVAS AREA
+════════════════════════════════ */
+.canvas-area {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  background: var(--bg);
+  overflow: hidden;
+}
+
+#three-canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  touch-action: none;
+}
+
+/* ── Drop / empty state ── */
+.drop-zone {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  cursor: pointer;
+  z-index: 5;
+  transition: opacity 0.3s ease;
+  /* subtle radial glow */
+  background: radial-gradient(ellipse 60% 40% at 50% 52%, rgba(108,99,255,0.07) 0%, transparent 70%);
+}
+.drop-zone.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+.drop-zone:hover .dz-box { border-color: var(--accent); }
+.drop-zone:hover .dz-icon { color: var(--accent2); }
+
+.drop-zone.drag-over .dz-box {
+  border-color: var(--accent);
+  background: rgba(108,99,255,0.08);
+}
+
+@keyframes float {
+  0%,100% { transform: translateY(0px); }
+  50%      { transform: translateY(-10px); }
+}
+@keyframes border-pulse {
+  0%,100% { border-color: var(--border2); }
+  50%      { border-color: rgba(108,99,255,0.5); }
+}
+
+.dz-box {
+  width: 88px;
+  height: 88px;
+  border: 2px dashed var(--border2);
+  border-radius: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  animation: float 4s ease-in-out infinite, border-pulse 4s ease-in-out infinite;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.dz-icon {
+  color: var(--text-dim);
+  transition: color 0.2s;
+}
+/* SVG cube */
+.dz-icon svg { display: block; }
+
+.dz-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  text-align: center;
+  padding: 0 24px;
+}
+
+.dz-hint {
+  font-size: 11.5px;
+  color: var(--text-dim);
+  font-family: var(--mono);
+  letter-spacing: 0.08em;
+  margin-bottom: 24px;
+}
+
+.dz-formats {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0 24px;
+}
+.dz-fmt {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--border2);
+  color: var(--text-dim);
+}
+
+/* ── Model info overlay ── */
+.model-overlay {
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+  display: none;
+  gap: 6px;
+  flex-direction: column;
+  z-index: 6;
+  pointer-events: none;
+}
+.model-overlay.visible { display: flex; }
+
+.mi-chip {
+  background: rgba(9,9,14,0.82);
+  border: 1px solid var(--border2);
+  border-radius: 7px;
+  padding: 5px 10px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--text-muted);
+  backdrop-filter: blur(8px);
+  line-height: 1.4;
+}
+.mi-chip strong { color: var(--text); font-weight: 700; }
+
+.mi-row {
+  display: flex;
+  gap: 10px;
+}
+
+/* ── Controls hint overlay ── */
+.controls-hint {
+  position: absolute;
+  bottom: 14px;
+  right: 14px;
+  background: rgba(9,9,14,0.7);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  padding: 6px 10px;
+  font-size: 10px;
+  font-family: var(--mono);
+  color: var(--text-dim);
+  line-height: 1.8;
+  pointer-events: none;
+  z-index: 6;
+  display: none;
+}
+.controls-hint.visible { display: block; }
+
+/* ── Loading overlay ── */
+.loading-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(9,9,14,0.88);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 16px;
+  z-index: 20;
+  backdrop-filter: blur(4px);
+}
+.loading-overlay.visible { display: flex; }
+
+.spinner {
+  width: 38px;
+  height: 38px;
+  border: 3px solid var(--border2);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.75s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.loading-text {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* ── Error toast ── */
+.toast {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  background: rgba(15,15,20,0.95);
+  border: 1px solid var(--error);
+  color: var(--error);
+  padding: 9px 18px;
+  border-radius: 9px;
+  font-size: 13px;
+  display: none;
+  z-index: 30;
+  max-width: min(90%, 420px);
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.2s, transform 0.2s;
+  pointer-events: none;
+}
+.toast.visible {
+  display: block;
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+#file-input { display: none; }
+
+/* ════════════════════════════════
+   CONTENT PAGES (About / Contact)
+════════════════════════════════ */
+.content-wrap {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 48px 20px 80px;
+  width: 100%;
+}
+
+.page-eyebrow {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  color: var(--accent2);
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  opacity: 0.9;
+}
+
+.page-hero {
+  font-size: clamp(26px, 5.5vw, 44px);
+  font-weight: 700;
+  line-height: 1.13;
+  letter-spacing: -0.025em;
+  color: var(--text);
+  margin-bottom: 20px;
+}
+
+.page-lead {
+  font-size: 15.5px;
+  color: var(--text-muted);
+  line-height: 1.8;
+  max-width: 600px;
+  margin-bottom: 48px;
+}
+
+/* ── Cards ── */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+  margin-bottom: 40px;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px 20px;
+  transition: border-color 0.2s, transform 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(108,99,255,0.04) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.card:hover { border-color: var(--border2); transform: translateY(-3px); }
+.card:hover::before { opacity: 1; }
+
+.card-num {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--accent);
+  letter-spacing: 0.12em;
+  margin-bottom: 11px;
+  opacity: 0.7;
+}
+
+.card-title {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.card-body {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+.privacy-block {
+  background: linear-gradient(135deg, rgba(108,99,255,0.07) 0%, rgba(167,139,250,0.04) 100%);
+  border: 1px solid rgba(108,99,255,0.25);
+  border-radius: 14px;
+  padding: 24px 28px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+.privacy-icon { font-size: 20px; margin-top: 2px; flex-shrink: 0; }
+.privacy-text { font-size: 14px; color: var(--text-muted); line-height: 1.75; font-style: italic; }
+
+/* ── Divider ── */
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 40px 0;
+}
+
+/* ════════════════════════════════
+   CONTACT
+════════════════════════════════ */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+@media (max-width: 660px) {
+  .contact-grid { grid-template-columns: 1fr; }
+}
+
+.info-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 24px;
+  position: sticky;
+  top: 16px;
+}
+
+.info-card-title {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 20px;
+}
+
+.contact-row { margin-bottom: 18px; }
+.contact-row:last-child { margin-bottom: 0; }
+.contact-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 4px;
+}
+.contact-value { font-size: 13.5px; color: var(--text-muted); }
+.contact-value a { color: var(--accent2); text-decoration: none; }
+.contact-value a:hover { text-decoration: underline; }
+
+.form-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 28px;
+}
+
+.form-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 22px;
+  font-family: var(--mono);
+  letter-spacing: 0.04em;
+}
+
+.form-group { margin-bottom: 16px; }
+
+.form-label {
+  display: block;
+  font-size: 11px;
+  font-family: var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 6px;
+}
+
+.form-input, .form-textarea {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  padding: 10px 13px;
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  -webkit-appearance: none;
+}
+.form-input::placeholder, .form-textarea::placeholder { color: var(--text-dim); }
+.form-input:focus, .form-textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(108,99,255,0.12);
+}
+.form-textarea { resize: vertical; min-height: 110px; }
+
+.form-submit {
+  width: 100%;
+  background: var(--accent);
+  border: none;
+  color: #fff;
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s;
+  margin-top: 4px;
+  letter-spacing: 0.01em;
+}
+.form-submit:hover { background: var(--accent-hover); }
+.form-submit:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.form-feedback {
+  margin-top: 12px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  display: none;
+  line-height: 1.5;
+}
+.form-feedback.success { display: block; background: rgba(34,211,160,0.08); border: 1px solid var(--success); color: var(--success); }
+.form-feedback.error   { display: block; background: rgba(248,113,113,0.08); border: 1px solid var(--error);   color: var(--error); }
+
+/* ════════════════════════════════
+   SCROLLBAR
+════════════════════════════════ */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+/* ════════════════════════════════
+   RESPONSIVE
+════════════════════════════════ */
+@media (max-width: 480px) {
+  :root { --header-h: 48px; --toolbar-h: 46px; }
+  .header-center { display: none; }
+  .dz-title { font-size: 15px; }
+  .controls-hint { display: none !important; }
+}
+@media (min-width: 1024px) {
+  .content-wrap { padding: 60px 32px 100px; }
+  .cards-grid { grid-template-columns: repeat(4, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══ -->
+<header>
+  <a class="logo" href="https://rdjpublishers.com/" target="_blank" rel="noopener">RDJ<span>publishers</span></a>
+  <span class="header-center">3D Model Viewer</span>
+  <button class="hamburger" id="ham-btn" aria-label="Open menu" aria-expanded="false">☰</button>
+</header>
+
+<!-- ═══ NAV ═══ -->
+<div class="nav-backdrop" id="nav-backdrop"></div>
+<nav class="nav-menu" id="nav-menu" role="menu" aria-label="Site navigation">
+  <div class="nav-item active" data-view="viewer" role="menuitem" tabindex="0">
+    <span class="nav-icon">⬡</span> Model Viewer
+  </div>
+  <div class="nav-item" data-view="about" role="menuitem" tabindex="0">
+    <span class="nav-icon">◎</span> About
+  </div>
+  <div class="nav-item" data-view="contact" role="menuitem" tabindex="0">
+    <span class="nav-icon">✉</span> Contact
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════
+     VIEWER PAGE
+═══════════════════════════════════ -->
+<main class="page active" id="page-viewer">
+
+  <!-- Toolbar -->
+  <div class="viewer-toolbar" role="toolbar" aria-label="Viewer controls">
+    <button class="tbtn tbtn-open" id="open-btn" aria-label="Open 3D file">
+      <span class="tbtn-icon">＋</span> Open File
+    </button>
+    <div class="toolbar-sep"></div>
+    <button class="tbtn" id="reset-btn" title="Reset camera view">
+      <span class="tbtn-icon">⟳</span> Reset
+    </button>
+    <button class="tbtn" id="wire-btn" title="Toggle wireframe">
+      <span class="tbtn-icon">⬡</span> Wireframe
+    </button>
+    <button class="tbtn" id="rot-btn" title="Toggle auto-rotate">
+      <span class="tbtn-icon">↻</span> Rotate
+    </button>
+  </div>
+
+  <!-- Canvas -->
+  <div class="canvas-area" id="canvas-area">
+    <canvas id="three-canvas" aria-label="3D model viewport"></canvas>
+
+    <!-- Empty state / drop zone — CLICKABLE -->
+    <div class="drop-zone" id="drop-zone" role="button" tabindex="0"
+         aria-label="Click to open a 3D file, or drag and drop one here">
+      <div class="dz-box">
+        <div class="dz-icon">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 4L36 13V27L20 36L4 27V13L20 4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M20 4V36" stroke="currentColor" stroke-width="1.5" opacity="0.4"/>
+            <path d="M4 13L20 22L36 13" stroke="currentColor" stroke-width="1.5" opacity="0.4"/>
+          </svg>
+        </div>
+      </div>
+      <div class="dz-title">Drop a file or tap to browse</div>
+      <div class="dz-hint">Supports GLTF · GLB · OBJ · STL · FBX</div>
+      <div class="dz-formats">
+        <span class="dz-fmt">GLTF</span>
+        <span class="dz-fmt">GLB</span>
+        <span class="dz-fmt">OBJ</span>
+        <span class="dz-fmt">STL</span>
+        <span class="dz-fmt">FBX</span>
+      </div>
+    </div>
+
+    <!-- Model info overlay -->
+    <div class="model-overlay" id="model-overlay">
+      <div class="mi-row">
+        <div class="mi-chip" id="mi-name">—</div>
+        <div class="mi-chip" id="mi-size">—</div>
+        <div class="mi-chip" id="mi-tris">—</div>
+      </div>
+    </div>
+
+    <!-- Controls hint -->
+    <div class="controls-hint" id="controls-hint">
+      Drag · orbit &nbsp;|&nbsp; Right-drag · pan<br>
+      Scroll / pinch · zoom
+    </div>
+
+    <!-- Loading -->
+    <div class="loading-overlay" id="loading-overlay" role="status" aria-live="polite">
+      <div class="spinner"></div>
+      <div class="loading-text" id="loading-text">Loading model…</div>
+    </div>
+
+    <!-- Error toast -->
+    <div class="toast" id="toast" role="alert" aria-live="assertive"></div>
+  </div>
+
+  <input type="file" id="file-input" accept=".gltf,.glb,.obj,.stl,.fbx" aria-hidden="true">
+</main>
+
+<!-- ═══════════════════════════════════
+     ABOUT PAGE
+═══════════════════════════════════ -->
+<section class="page" id="page-about">
+  <div class="content-wrap">
+    <p class="page-eyebrow">About RDJ Publishers</p>
+    <h1 class="page-hero">Crafting Tools People Actually Use</h1>
+    <p class="page-lead">RDJ Publishers is an independent web studio dedicated to building free, fast, and privacy‑respecting tools for students, professionals, and everyday users – with zero sign‑ups and zero costs.</p>
+
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-num">01</div>
+        <div class="card-title">Who We Are</div>
+        <div class="card-body">Independent web publishing studio building practical, free‑to‑use web apps for everyone.</div>
+      </div>
+      <div class="card">
+        <div class="card-num">02</div>
+        <div class="card-title">Our Mission</div>
+        <div class="card-body">Democratise access to productivity tools with browser‑based utilities that work on any device, any data plan.</div>
+      </div>
+      <div class="card">
+        <div class="card-num">03</div>
+        <div class="card-title">Always Free</div>
+        <div class="card-body">No hidden paywalls, no freemium limits, no forced sign‑ups. Supported by non‑intrusive advertising.</div>
+      </div>
+      <div class="card">
+        <div class="card-num">04</div>
+        <div class="card-title">Always Evolving</div>
+        <div class="card-body">Regularly add new tools. We read every feature request and bug report.</div>
+      </div>
+    </div>
+
+    <div class="privacy-block">
+      <div class="privacy-icon">🔒</div>
+      <p class="privacy-text">"All tools process your data entirely inside your browser. Nothing is ever sent to any server, stored, or seen by anyone else."</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     CONTACT PAGE
+═══════════════════════════════════ -->
+<section class="page" id="page-contact">
+  <div class="content-wrap">
+    <p class="page-eyebrow">Get in Touch</p>
+    <h1 class="page-hero">We'd Love to Hear From You</h1>
+    <p class="page-lead">Questions, bug reports, tool requests, or just say hello – we read every message.</p>
+
+    <div class="contact-grid">
+      <div>
+        <div class="info-card">
+          <div class="info-card-title">Contact Details</div>
+          <div class="contact-row">
+            <div class="contact-label">Email</div>
+            <div class="contact-value"><a href="mailto:rdjpublishers@gmail.com">rdjpublishers@gmail.com</a></div>
+          </div>
+          <div class="contact-row">
+            <div class="contact-label">Website</div>
+            <div class="contact-value"><a href="https://rdjpublishers.com/" target="_blank" rel="noopener">rdjpublishers.com</a></div>
+          </div>
+          <div class="contact-row">
+            <div class="contact-label">Response Time</div>
+            <div class="contact-value">Usually within 24–48 hours</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-card">
+        <div class="form-title">// Send a Message</div>
+        <form id="contact-form" novalidate>
+          <input type="hidden" name="access_key" value="b8e73ebb-4cd4-45ae-aa44-5a9725856c03">
+          <div class="form-group">
+            <label class="form-label" for="f-name">Your Name *</label>
+            <input class="form-input" type="text" id="f-name" name="name" required autocomplete="name" placeholder="Jane Smith">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="f-email">Email Address *</label>
+            <input class="form-input" type="email" id="f-email" name="email" required autocomplete="email" placeholder="jane@example.com">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="f-subject">Subject</label>
+            <input class="form-input" type="text" id="f-subject" name="subject" placeholder="Bug report, feature request…">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="f-msg">Message *</label>
+            <textarea class="form-textarea" id="f-msg" name="message" required placeholder="Tell us anything…"></textarea>
+          </div>
+          <button class="form-submit" type="submit" id="form-submit">Send Message</button>
+          <div class="form-feedback" id="form-feedback"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════
+     THREE.JS
+════════════════════════════════════════ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+'use strict';
+
+/* ── CDN URLs ── */
+const CDN = {
+  OrbitControls: 'https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js',
+  GLTFLoader:    'https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js',
+  OBJLoader:     'https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/OBJLoader.js',
+  STLLoader:     'https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/STLLoader.js',
+  FBXLoader:     'https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/FBXLoader.js',
+  fflate:        'https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/libs/fflate.min.js',
+};
+
+const loaded = {};
+function loadScript(url) {
+  if (loaded[url]) return loaded[url];
+  loaded[url] = new Promise((res, rej) => {
+    const s = document.createElement('script');
+    s.src = url;
+    s.onload = res;
+    s.onerror = () => rej(new Error('Script load failed: ' + url));
+    document.head.appendChild(s);
+  });
+  return loaded[url];
+}
+
+/* ── Three.js state ── */
+let renderer, scene, camera, controls, currentModel;
+let isWireframe = false, isAutoRotate = false;
+let viewerReady = false;
+
+/* ── DOM refs ── */
+const canvasEl   = document.getElementById('three-canvas');
+const canvasArea = document.getElementById('canvas-area');
+const dropZone   = document.getElementById('drop-zone');
+const loadingEl  = document.getElementById('loading-overlay');
+const loadingTxt = document.getElementById('loading-text');
+const toastEl    = document.getElementById('toast');
+const modelOverlay = document.getElementById('model-overlay');
+const controlsHint = document.getElementById('controls-hint');
+
+/* ── Init ── */
+async function initViewer() {
+  if (viewerReady) return;
+  await loadScript(CDN.OrbitControls);
+
+  renderer = new THREE.WebGLRenderer({ canvas: canvasEl, antialias: true, alpha: false });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.outputEncoding    = THREE.sRGBEncoding;
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type    = THREE.PCFSoftShadowMap;
+  renderer.toneMapping       = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.1;
+
+  scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x09090e);
+  scene.fog = new THREE.FogExp2(0x09090e, 0.035);
+
+  /* Grid */
+  const grid = new THREE.GridHelper(20, 30, 0x222230, 0x17171f);
+  scene.add(grid);
+
+  /* Lights */
+  scene.add(new THREE.AmbientLight(0xffffff, 0.45));
+
+  const sun = new THREE.DirectionalLight(0xffeedd, 1.4);
+  sun.position.set(5, 10, 7);
+  sun.castShadow = true;
+  sun.shadow.mapSize.set(1024, 1024);
+  sun.shadow.camera.near = 0.1;
+  sun.shadow.camera.far  = 80;
+  scene.add(sun);
+
+  const fill = new THREE.DirectionalLight(0x8899ff, 0.5);
+  fill.position.set(-6, 4, -8);
+  scene.add(fill);
+
+  scene.add(new THREE.HemisphereLight(0x6655aa, 0x111128, 0.5));
+
+  /* Camera — angled properly above the grid */
+  camera = new THREE.PerspectiveCamera(48, 1, 0.01, 500);
+  camera.position.set(0, 6, 12);
+
+  controls = new THREE.OrbitControls(camera, renderer.domElement);
+  controls.enableDamping  = true;
+  controls.dampingFactor  = 0.06;
+  controls.screenSpacePanning = true;
+  controls.minDistance    = 0.1;
+  controls.maxDistance    = 200;
+  controls.target.set(0, 0, 0);
+
+  resizeRenderer();
+  animate();
+  viewerReady = true;
+}
+
+function resizeRenderer() {
+  if (!renderer) return;
+  const w = canvasArea.clientWidth  || 1;
+  const h = canvasArea.clientHeight || 1;
+  renderer.setSize(w, h, false);
+  if (camera) { camera.aspect = w / h; camera.updateProjectionMatrix(); }
+}
+
+function animate() {
+  requestAnimationFrame(animate);
+  if (isAutoRotate && currentModel) currentModel.rotation.y += 0.005;
+  controls.update();
+  renderer.render(scene, camera);
+}
+
+window.addEventListener('resize', resizeRenderer);
+
+/* ── Helpers ── */
+function showLoading(msg) {
+  loadingEl.classList.add('visible');
+  loadingTxt.textContent = msg || 'Loading…';
+}
+function hideLoading() { loadingEl.classList.remove('visible'); }
+
+let toastTimer;
+function showToast(msg) {
+  clearTimeout(toastTimer);
+  toastEl.textContent = msg;
+  toastEl.classList.add('visible');
+  toastTimer = setTimeout(() => toastEl.classList.remove('visible'), 5000);
+}
+
+function showDropZone() {
+  dropZone.classList.remove('hidden');
+  modelOverlay.classList.remove('visible');
+  controlsHint.classList.remove('visible');
+}
+function hideDropZone() {
+  dropZone.classList.add('hidden');
+}
+
+function formatBytes(b) {
+  if (b < 1024)       return b + ' B';
+  if (b < 1048576)    return (b/1024).toFixed(1) + ' KB';
+  return (b/1048576).toFixed(1) + ' MB';
+}
+
+function countTriangles(root) {
+  let t = 0;
+  root.traverse(n => {
+    if (!n.isMesh) return;
+    const g = n.geometry;
+    if (g.index)                    t += g.index.count / 3;
+    else if (g.attributes.position) t += g.attributes.position.count / 3;
+  });
+  return Math.round(t);
+}
+
+function fitCamera(obj) {
+  const box    = new THREE.Box3().setFromObject(obj);
+  const center = box.getCenter(new THREE.Vector3());
+  const size   = box.getSize(new THREE.Vector3());
+  const maxDim = Math.max(size.x, size.y, size.z);
+  const fovRad = camera.fov * (Math.PI / 180);
+  const dist   = (maxDim / Math.tan(fovRad / 2)) * 0.7;
+
+  camera.near = dist * 0.001;
+  camera.far  = dist * 20;
+  camera.updateProjectionMatrix();
+
+  controls.target.copy(center);
+  camera.position.set(
+    center.x + dist * 0.55,
+    center.y + dist * 0.40,
+    center.z + dist * 0.90
+  );
+  controls.update();
+}
+
+function clearModel() {
+  if (!currentModel) return;
+  scene.remove(currentModel);
+  currentModel.traverse(n => {
+    if (n.isMesh) {
+      n.geometry.dispose();
+      const mats = Array.isArray(n.material) ? n.material : [n.material];
+      mats.forEach(m => m.dispose());
+    }
+  });
+  currentModel = null;
+  isWireframe = false;
+  document.getElementById('wire-btn').classList.remove('on');
+}
+
+/* ── Load file ── */
+async function loadFile(file) {
+  if (!viewerReady) await initViewer();
+
+  const ext = file.name.split('.').pop().toLowerCase();
+  const ok  = ['gltf','glb','obj','stl','fbx'];
+  if (!ok.includes(ext)) {
+    showToast('Unsupported format ".' + ext + '". Try GLTF, GLB, OBJ, STL, or FBX.');
+    return;
+  }
+
+  showLoading('Loading ' + file.name + '…');
+  clearModel();
+  hideDropZone();
+
+  const url = URL.createObjectURL(file);
+  try {
+    if (ext === 'gltf' || ext === 'glb') {
+      await loadScript(CDN.GLTFLoader);
+      const gltf = await new THREE.GLTFLoader().loadAsync(url);
+      currentModel = gltf.scene;
+
+    } else if (ext === 'obj') {
+      await loadScript(CDN.OBJLoader);
+      currentModel = await new THREE.OBJLoader().loadAsync(url);
+      const mat = new THREE.MeshStandardMaterial({ color: 0x8888aa, roughness: 0.5, metalness: 0.2 });
+      currentModel.traverse(n => { if (n.isMesh) n.material = mat; });
+
+    } else if (ext === 'stl') {
+      await loadScript(CDN.STLLoader);
+      const geo = await new THREE.STLLoader().loadAsync(url);
+      geo.computeVertexNormals();
+      currentModel = new THREE.Mesh(
+        geo,
+        new THREE.MeshStandardMaterial({ color: 0x7777cc, roughness: 0.4, metalness: 0.3 })
+      );
+
+    } else if (ext === 'fbx') {
+      await loadScript(CDN.fflate);
+      await loadScript(CDN.FBXLoader);
+      currentModel = await new THREE.FBXLoader().loadAsync(url);
+    }
+
+    scene.add(currentModel);
+    fitCamera(currentModel);
+
+    const tris = countTriangles(currentModel);
+    document.getElementById('mi-name').innerHTML = '<strong>' + file.name + '</strong>';
+    document.getElementById('mi-size').textContent = formatBytes(file.size);
+    document.getElementById('mi-tris').textContent = tris.toLocaleString() + ' △';
+    modelOverlay.classList.add('visible');
+    controlsHint.classList.add('visible');
+
+    URL.revokeObjectURL(url);
+    hideLoading();
+
+  } catch (err) {
+    URL.revokeObjectURL(url);
+    hideLoading();
+    showDropZone();
+    showToast('Failed to load "' + file.name + '": ' + (err.message || 'unknown error'));
+    console.error(err);
+  }
+}
+
+/* ── Toolbar buttons ── */
+document.getElementById('open-btn').addEventListener('click', () => {
+  document.getElementById('file-input').click();
+});
+
+document.getElementById('file-input').addEventListener('change', e => {
+  if (e.target.files[0]) loadFile(e.target.files[0]);
+  e.target.value = '';
+});
+
+document.getElementById('reset-btn').addEventListener('click', () => {
+  if (currentModel) fitCamera(currentModel);
+  else { camera.position.set(0,6,12); controls.target.set(0,0,0); controls.update(); }
+});
+
+document.getElementById('wire-btn').addEventListener('click', function() {
+  isWireframe = !isWireframe;
+  this.classList.toggle('on', isWireframe);
+  if (currentModel) currentModel.traverse(n => {
+    if (n.isMesh) {
+      const mats = Array.isArray(n.material) ? n.material : [n.material];
+      mats.forEach(m => { m.wireframe = isWireframe; });
+    }
+  });
+});
+
+document.getElementById('rot-btn').addEventListener('click', function() {
+  isAutoRotate = !isAutoRotate;
+  this.classList.toggle('on', isAutoRotate);
+});
+
+/* ── Drop zone — click to open file ── */
+dropZone.addEventListener('click', () => document.getElementById('file-input').click());
+dropZone.addEventListener('keydown', e => {
+  if (e.key === 'Enter' || e.key === ' ') {
+    e.preventDefault();
+    document.getElementById('file-input').click();
+  }
+});
+
+/* ── Drag & drop on canvas area ── */
+canvasArea.addEventListener('dragover', e => {
+  e.preventDefault();
+  dropZone.classList.add('drag-over');
+  if (!dropZone.classList.contains('hidden')) return;
+  // show a brief highlight
+  canvasArea.style.outline = '2px solid rgba(108,99,255,0.5)';
+});
+canvasArea.addEventListener('dragleave', () => {
+  dropZone.classList.remove('drag-over');
+  canvasArea.style.outline = '';
+});
+canvasArea.addEventListener('drop', e => {
+  e.preventDefault();
+  dropZone.classList.remove('drag-over');
+  canvasArea.style.outline = '';
+  const f = e.dataTransfer.files[0];
+  if (f) loadFile(f);
+});
+
+/* ── Nav / hamburger ── */
+const hamBtn     = document.getElementById('ham-btn');
+const navMenu    = document.getElementById('nav-menu');
+const navBackdrop = document.getElementById('nav-backdrop');
+
+function closeMenu() {
+  navMenu.classList.remove('open');
+  navBackdrop.classList.remove('open');
+  hamBtn.setAttribute('aria-expanded', 'false');
+}
+
+hamBtn.addEventListener('click', e => {
+  e.stopPropagation();
+  const isOpen = navMenu.classList.toggle('open');
+  navBackdrop.classList.toggle('open', isOpen);
+  hamBtn.setAttribute('aria-expanded', String(isOpen));
+});
+navBackdrop.addEventListener('click', closeMenu);
+
+document.querySelectorAll('.nav-item').forEach(item => {
+  const activate = () => {
+    const view = item.dataset.view;
+    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+    item.classList.add('active');
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + view).classList.add('active');
+    closeMenu();
+    if (view === 'viewer') setTimeout(resizeRenderer, 60);
+  };
+  item.addEventListener('click', activate);
+  item.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(); }
+  });
+});
+
+/* ── Contact form ── */
+document.getElementById('contact-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const name  = document.getElementById('f-name').value.trim();
+  const email = document.getElementById('f-email').value.trim();
+  const msg   = document.getElementById('f-msg').value.trim();
+  const fb    = document.getElementById('form-feedback');
+  const btn   = document.getElementById('form-submit');
+
+  fb.className = 'form-feedback';
+
+  if (!name)  { fb.textContent = 'Please enter your name.';            fb.className = 'form-feedback error'; return; }
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    fb.textContent = 'Please enter a valid email address.'; fb.className = 'form-feedback error'; return;
+  }
+  if (!msg)   { fb.textContent = 'Please enter your message.';         fb.className = 'form-feedback error'; return; }
+
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+
+  try {
+    const res  = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: new FormData(this) });
+    const data = await res.json();
+    if (data.success) {
+      fb.textContent  = '✓ Message sent! We\'ll reply within 24–48 hours.';
+      fb.className    = 'form-feedback success';
+      this.reset();
+    } else {
+      throw new Error(data.message || 'Submission failed');
+    }
+  } catch (err) {
+    fb.textContent = 'Something went wrong – please email us directly at rdjpublishers@gmail.com';
+    fb.className   = 'form-feedback error';
+  }
+
+  btn.disabled    = false;
+  btn.textContent = 'Send Message';
+});
+
+/* ── Boot ── */
+(async () => { await initViewer(); })();
+</script>
+</body>
+</html>
