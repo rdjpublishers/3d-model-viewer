@@ -421,7 +421,7 @@ header {
 /* ── Controls hint overlay ── */
 .controls-hint {
   position: absolute;
-  bottom: 14px;
+  bottom: 56px;
   right: 14px;
   background: rgba(9,9,14,0.7);
   border: 1px solid var(--border);
@@ -432,7 +432,7 @@ header {
   color: var(--text-dim);
   line-height: 1.8;
   pointer-events: none;
-  z-index: 6;
+  z-index: 100;
   display: none;
 }
 .controls-hint.visible { display: block; }
@@ -743,6 +743,93 @@ header {
 @media (min-width: 1024px) {
   .content-wrap { padding: 60px 32px 100px; }
   .cards-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* ═══════════════════════════════════
+   PERMANENT SITE FOOTER
+═══════════════════════════════════ */
+.site-footer {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 50;
+  background: rgba(9, 9, 14, 0.86);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-top: 1px solid var(--border);
+  padding: 7px 14px 8px;
+  text-align: center;
+  font-family: var(--sans);
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--text-muted);
+  user-select: none;
+}
+.site-footer-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 4px 8px;
+  row-gap: 4px;
+  margin-bottom: 3px;
+}
+.site-footer-nav a {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+.site-footer-nav a.legal {
+  color: var(--text);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: var(--border2);
+  text-underline-offset: 2px;
+}
+.site-footer-nav a:hover {
+  color: var(--accent2);
+  text-decoration-color: currentColor;
+}
+.site-footer-sep {
+  color: var(--border2);
+  user-select: none;
+  font-weight: 400;
+}
+.site-footer-meta {
+  font-size: 10px;
+  color: var(--text-dim);
+  opacity: 0.9;
+  margin-bottom: 3px;
+}
+.site-footer-meta a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-weight: 600;
+}
+.site-footer-meta a:hover { color: var(--accent2); }
+.site-footer-disclosure {
+  max-width: 720px;
+  margin: 0 auto;
+  font-size: 10px;
+  color: var(--text-dim);
+  font-style: italic;
+  opacity: 0.85;
+}
+.site-footer-disclosure a {
+  color: var(--text-muted);
+  font-style: normal;
+  text-decoration: underline;
+  text-decoration-color: var(--border2);
+  text-underline-offset: 2px;
+}
+.site-footer-disclosure a:hover {
+  color: var(--accent2);
+  text-decoration-color: currentColor;
+}
+@media (max-width: 480px) {
+  .site-footer { padding: 6px 10px 7px; font-size: 10.5px; }
+  .site-footer-meta { display: none; }
+  .site-footer-nav { gap: 4px 6px; }
 }
 </style>
 </head>
@@ -1418,5 +1505,34 @@ document.getElementById('contact-form').addEventListener('submit', async functio
 /* ── Boot ── */
 (async () => { await initViewer(); })();
 </script>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     PERMANENT SITE FOOTER — fixed at the bottom of the viewport so it
+     remains visible on every page (viewer / about / contact). It
+     covers a small portion of the 3D canvas at the bottom, but the
+     canvas remains fully usable for rotate / zoom / pan.
+     ═══════════════════════════════════════════════════════════════ -->
+<footer class="site-footer" aria-label="Site footer">
+  <nav class="site-footer-nav" aria-label="Legal and navigation">
+    <a href="https://rdjpublishers.com/about.html">About</a>
+    <span class="site-footer-sep" aria-hidden="true">·</span>
+    <a href="https://rdjpublishers.com/contact.html">Contact</a>
+    <span class="site-footer-sep" aria-hidden="true">·</span>
+    <a class="legal" href="https://rdjpublishers.com/privacy-policy.html">Privacy Policy</a>
+    <span class="site-footer-sep" aria-hidden="true">·</span>
+    <a class="legal" href="https://rdjpublishers.com/terms.html">Terms & Conditions</a>
+    <span class="site-footer-sep" aria-hidden="true">·</span>
+    <a class="legal" href="https://rdjpublishers.com/disclaimer.html">Disclaimer</a>
+    <span class="site-footer-sep" aria-hidden="true">·</span>
+    <a href="https://rdjpublishers.com/sitemap.xml">Sitemap</a>
+  </nav>
+  <div class="site-footer-meta">
+    © 2026 <a href="https://rdjpublishers.com/" target="_blank" rel="noopener">RDJ Publishers</a>. All rights reserved.
+  </div>
+  <div class="site-footer-disclosure">
+    This site may display ads served by Google AdSense. See our <a href="https://rdjpublishers.com/privacy-policy.html">Privacy Policy</a> for details.
+  </div>
+</footer>
+
 </body>
 </html>
