@@ -832,6 +832,28 @@ header {
   .site-footer-nav { gap: 4px 6px; }
 }
 </style>
+
+<style id="rdj-guide-css">
+.rdj-guide{max-width:860px;margin:2.5rem auto 2.5rem;padding:0 1.25rem;color:var(--text);font-family:var(--sans);line-height:1.75}
+.rdj-guide h2{font-size:1.4rem;font-weight:700;margin:2rem 0 .75rem;color:var(--text)}
+.rdj-guide h2:first-child{margin-top:0}
+.rdj-guide h3{font-size:1.02rem;font-weight:700;margin:1.25rem 0 .35rem;color:var(--text)}
+.rdj-guide p{font-size:.94rem;color:var(--text-muted);margin:0 0 .85rem}
+.rdj-guide ul,.rdj-guide ol{margin:0 0 1rem 1.25rem;padding:0}
+.rdj-guide li{font-size:.93rem;color:var(--text-muted);margin-bottom:.4rem}
+.rdj-guide strong{color:var(--text)}
+.rdj-guide .rdj-faq{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.9rem 1.15rem;margin-bottom:.7rem}
+.rdj-guide .rdj-faq h3{margin:0 0 .3rem;font-size:.97rem}
+.rdj-guide .rdj-faq p{margin:0}
+.rdj-guide a{color:var(--accent2)}
+</style>
+<style id="rdj-guide-3d-layout">
+/* Let the viewer page scroll so the guide below the canvas is visible */
+#page-viewer{overflow-y:auto;-webkit-overflow-scrolling:touch}
+#page-viewer .canvas-area{flex:none;height:calc(100vh - var(--header-h) - var(--toolbar-h) - 56px);min-height:320px}
+#page-viewer .viewer-toolbar{position:sticky;top:0;z-index:6}
+.rdj-guide-3d{padding-bottom:90px}
+</style>
 </head>
 <body>
 
@@ -933,6 +955,44 @@ header {
     <!-- Error toast -->
     <div class="toast" id="toast" role="alert" aria-live="assertive"></div>
   </div>
+
+
+  <!-- RDJ original guide content -->
+  <article class="rdj-guide rdj-guide-3d" aria-labelledby="v3-guide-title">
+    <h2 id="v3-guide-title">About the 3D Model Viewer</h2>
+    <p>The 3D Model Viewer opens 3D files directly in your browser so you can inspect them without installing modelling software. Drop a file onto the viewport or press Open File, and the model appears in an interactive scene where you can rotate, zoom and pan. It supports GLTF, GLB, OBJ, STL and FBX. The file is read on your device and rendered with Three.js, so the model is not uploaded to our servers.</p>
+
+    <h2>How to use it</h2>
+    <ol>
+      <li><strong>Open a file.</strong> Drag a model onto the viewport, or press Open File and choose one.</li>
+      <li><strong>Move around.</strong> Drag to orbit, right-drag to pan, and scroll or pinch to zoom. On a phone, use one finger to orbit and two fingers to zoom.</li>
+      <li><strong>Use the toolbar.</strong> Reset returns the camera to its starting view. Wireframe shows the mesh edges instead of solid surfaces. Rotate turns on a slow automatic spin. The theme button switches the viewport background between dark and light.</li>
+      <li><strong>Read the model details.</strong> An information panel shows the file name, its size and the triangle count, which helps you judge how heavy the model is.</li>
+    </ol>
+
+    <h2>Which format should I use?</h2>
+    <p><strong>GLB</strong> is a single binary file that bundles geometry, materials and textures, which makes it the most reliable format to open and share. <strong>GLTF</strong> is the same standard as a text file, and it often points to separate texture and data files. <strong>OBJ</strong> is a long-established format that stores geometry and usually keeps materials in a separate file. <strong>STL</strong> stores only surface geometry, with no colour or texture, and is common for 3D printing. <strong>FBX</strong> is widely exported from animation and game tools.</p>
+
+    <h2>Common uses</h2>
+    <ul>
+      <li>Check an STL file before sending it to a 3D printer.</li>
+      <li>Preview a model exported from Blender or another editor to make sure it looks right.</li>
+      <li>Inspect a model's polygon count using the triangle figure.</li>
+      <li>Show a 3D asset to a client or classmate without asking them to install anything.</li>
+      <li>Use wireframe mode to look for overly dense or broken areas in a mesh.</li>
+    </ul>
+
+    <h2>Limits and troubleshooting</h2>
+    <p>A GLTF or OBJ file that depends on separate texture or material files may appear grey or untextured when opened on its own. Exporting to GLB keeps everything in one file. Very large models use a lot of memory, so they may load slowly or fail on phones and older computers. If a model looks tiny or huge, press Reset, since models are saved with different unit scales. If a file will not open, check that its extension matches its real format and try exporting it again from your modelling tool.</p>
+
+    <h2>Frequently asked questions</h2>
+    <div class="rdj-faq"><h3>Which 3D formats does the viewer support?</h3><p>GLTF, GLB, OBJ, STL and FBX.</p></div>
+    <div class="rdj-faq"><h3>Is my model uploaded anywhere?</h3><p>No. The file is read and rendered in your browser on your own device. The page does load Google Analytics and Google AdSense, which use cookies. See the <a href="https://rdjpublishers.com/privacy-policy.html">Privacy Policy</a>.</p></div>
+    <div class="rdj-faq"><h3>Why does my model look grey or without textures?</h3><p>Its textures or materials are probably stored in separate files that were not loaded. Export the model as GLB so everything is embedded in one file.</p></div>
+    <div class="rdj-faq"><h3>What does wireframe mode show?</h3><p>It draws only the edges of the triangles that make up the model, which helps you judge mesh density and spot problems.</p></div>
+    <div class="rdj-faq"><h3>Can I edit or convert the model here?</h3><p>No. This is a viewer only. Use a modelling tool such as Blender to edit or convert files.</p></div>
+    <div class="rdj-faq"><h3>Does it work on a phone?</h3><p>Yes, on modern mobile browsers. Large or complex models may be slow on older devices.</p></div>
+  </article>
 
   <input type="file" id="file-input" accept=".gltf,.glb,.obj,.stl,.fbx" aria-hidden="true">
 </main>
